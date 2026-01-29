@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       initNavbar();
       initDropdowns(); // 👈 THIS IS THE KEY
+      initHoverDropdowns();
     });
 });
 
@@ -45,9 +46,41 @@ function initNavbar() {
 
 
 
+
 /* 🔥 Bootstrap dropdown re-init */
 function initDropdowns() {
   document.querySelectorAll('.dropdown-toggle').forEach(el => {
     new bootstrap.Dropdown(el);
   });
+
+
 }
+
+function initHoverDropdowns() {
+  const isDesktop = window.matchMedia('(min-width: 992px)').matches;
+  if (!isDesktop) return; // ✅ absolutely no hover logic on mobile
+
+  document.querySelectorAll('.nav-item.dropdown').forEach(dropdown => {
+    const toggle = dropdown.querySelector('.dropdown-toggle');
+    const menu = dropdown.querySelector('.dropdown-menu');
+    const bsDropdown = bootstrap.Dropdown.getOrCreateInstance(toggle);
+
+    let hoverTimeout;
+
+    const showDropdown = () => {
+      clearTimeout(hoverTimeout);
+      bsDropdown.show();
+    };
+
+    const hideDropdown = () => {
+      hoverTimeout = setTimeout(() => {
+        bsDropdown.hide();
+      }, 150);
+    };
+
+    dropdown.addEventListener('mouseenter', showDropdown);
+    dropdown.addEventListener('mouseleave', hideDropdown);
+  });
+}
+
+

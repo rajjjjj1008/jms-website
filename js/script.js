@@ -25,53 +25,67 @@ const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        // Get form values
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-        const subject = document.getElementById('subject').value.trim();
-        const message = document.getElementById('message').value.trim();
-        
-        // Validation
-        let isValid = true;
-        let errorMessage = '';
-        
-        if (name === '') {
-            errorMessage += 'Please enter your name.\n';
-            isValid = false;
-        }
-        
-        if (email === '' || !isValidEmail(email)) {
-            errorMessage += 'Please enter a valid email address.\n';
-            isValid = false;
-        }
-        
-        if (phone === '' || !isValidPhone(phone)) {
-            errorMessage += 'Please enter a valid phone number.\n';
-            isValid = false;
-        }
-        
-        if (subject === '') {
-            errorMessage += 'Please enter a subject.\n';
-            isValid = false;
-        }
-        
-        if (message === '' || message.length < 10) {
-            errorMessage += 'Please enter a message (at least 10 characters).\n';
-            isValid = false;
-        }
-        
-        if (!isValid) {
-            showNotification(errorMessage, 'error');
-            return;
-        }
-        
-        // If validation passes, show success message
-        showNotification('Thank you! Your message has been sent successfully. We will contact you soon.', 'success');
-        contactForm.reset();
-    });
+  e.preventDefault();
+
+  let isValid = true;
+
+  // clear previous errors
+  document.querySelectorAll('.error-text').forEach(e => {
+    e.innerText = '';
+    e.style.display = 'none';
+  });
+  document.querySelectorAll('.form-control, .form-select')
+    .forEach(i => i.classList.remove('error'));
+
+  const name = document.getElementById('name');
+  const email = document.getElementById('email');
+  const phone = document.getElementById('phone');
+  const inquiry = document.getElementById('inquiry');
+  const message = document.getElementById('message');
+
+  // NAME
+  if (!/^[A-Za-z\s]+$/.test(name.value.trim())) {
+    showError(name, 'Name should contain only letters');
+    isValid = false;
+  }
+
+  // EMAIL
+  if (!isValidEmail(email.value.trim())) {
+    showError(email, 'Please enter a valid email');
+    isValid = false;
+  }
+
+  // PHONE
+  if (!isValidPhone(phone.value.trim())) {
+    showError(phone, 'Please enter a valid phone number');
+    isValid = false;
+  }
+
+  // INQUIRY
+  if (inquiry.value === '') {
+    showError(inquiry, 'Please select an inquiry type');
+    isValid = false;
+  }
+
+  // MESSAGE
+  if (message.value.trim().length < 10) {
+    showError(message, 'Message must be at least 10 characters');
+    isValid = false;
+  }
+
+  if (!isValid) return;
+
+  showNotification('Thank you! Your message has been sent.', 'success');
+  contactForm.reset();
+});
+
+function showError(input, msg) {
+  input.classList.add('error');
+  const errorEl = input.nextElementSibling;
+  errorEl.innerText = msg;
+  errorEl.style.display = 'block';
+}
+
 }
 
 // Email validation
@@ -98,26 +112,28 @@ function showNotification(message, type = 'success') {
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
     notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        padding: 20px 25px;
-        background: ${type === 'success' ? '#4caf50' : '#f44336'};
-        color: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-        z-index: 10000;
-        max-width: 400px;
-        animation: slideInRight 0.3s ease;
-        white-space: pre-line;
-    `;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 16px 24px;
+  background: ${type === 'success' ? '#4caf50' : '#f44336'};
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  z-index: 10000;
+  max-width: 420px;
+  animation: slideDown 0.35s ease;
+  white-space: pre-line;
+`;
+
     
     notification.textContent = message;
     document.body.appendChild(notification);
     
     // Remove after 5 seconds
     setTimeout(() => {
-        notification.style.animation = 'slideOutRight 0.3s ease';
+        notification.style.animation = 'slideUp 0.3s ease';
         setTimeout(() => notification.remove(), 300);
     }, 5000);
 }
@@ -127,27 +143,28 @@ if (!document.querySelector('#notificationStyles')) {
     const style = document.createElement('style');
     style.id = 'notificationStyles';
     style.textContent = `
-        @keyframes slideInRight {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        
-        @keyframes slideOutRight {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-        }
+        @keyframes slideDown {
+  from {
+    transform: translate(-50%, -30px);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-50%, -30px);
+    opacity: 0;
+  }
+}
+
     `;
     document.head.appendChild(style);
 }
@@ -235,8 +252,6 @@ backToTopButton.innerHTML = '↑';
 backToTopButton.className = 'back-to-top';
 backToTopButton.style.cssText = `
     position: fixed;
-    bottom: 30px;
-    right: 30px;
     width: 50px;
     height: 50px;
     background: var(--primary-color, #1a4d8f);
@@ -251,6 +266,7 @@ backToTopButton.style.cssText = `
     z-index: 999;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 `;
+
 
 document.body.appendChild(backToTopButton);
 
@@ -345,3 +361,18 @@ if (enquiryForm) {
         });
     });
 }
+
+// ===== Scroll Progress Bar =====
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight =
+    document.documentElement.scrollHeight -
+    document.documentElement.clientHeight;
+
+  const scrollPercent = (scrollTop / docHeight) * 100;
+
+  const progressBar = document.getElementById('scroll-progress-bar');
+  if (progressBar) {
+    progressBar.style.width = scrollPercent + '%';
+  }
+});

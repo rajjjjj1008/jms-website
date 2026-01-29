@@ -50,11 +50,11 @@ ul {
 }
 
 /* ===== Container ===== */
-.container {
+/* .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
-}
+} */
 
 /* ===== Navigation ===== */
 .navbar {
@@ -192,13 +192,13 @@ ul {
 }
 
 .hero-content h1 {
-  font-size: 48px;
+  font-size: 80px;
   max-width: 900px;
 }
 
 .hero-content p {
   margin: 20px 0;
-  font-size: 18px;
+  font-size: 30px;
   opacity: 0.9;
 }
 
@@ -325,12 +325,12 @@ ul {
 }
 
 .btn-primary {
-    background: var(--accent-color);
+    background: #00246B;
     color: white;
 }
 
 .btn-primary:hover {
-    background: #ff5722;
+    background: #001a52;
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
 }
@@ -607,10 +607,9 @@ ul {
 }
 
 .footer-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 40px;
-    margin-bottom: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
 }
 
 .footer-col h3 {
@@ -622,7 +621,7 @@ ul {
 .footer-col h4 {
     color: white;
     font-size: 18px;
-    margin-bottom: 20px;
+    margin-bottom: 14px;
 }
 
 .footer-col p {
@@ -1348,6 +1347,268 @@ ul {
   margin-bottom: 6px;
 }
 
+.linkedin-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  color: #ccc;
+  margin-top: 8px;
+}
+
+.linkedin-link i {
+  font-size: 22px;
+  color: #0A66C2;
+}
+
+.linkedin-link:hover {
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+.footer-social {
+  margin-top: 25px;
+  margin-bottom: 18px; 
+}
+
+.footer-social h4 {
+  margin-bottom: 10px;
+}
+
+/* ===== Floating LinkedIn Button ===== */
+.floating-linkedin {
+  position: fixed;
+  bottom: 95px;              /* 👈 above Back-to-Top */
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background: #0A66C2;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  z-index: 998;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.floating-linkedin:hover {
+  transform: scale(1.1);
+  background: #004182;
+  color: #fff;
+}
+
+.back-to-top {
+  bottom: 30px;
+  right: 30px;
+}
+
+.navbar .nav-link:focus,
+.navbar .nav-link:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+.hero-about {
+  background-image: url('../images/about.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.map-wrapper {
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+/* ===== World Map Section ===== */
+
+.world-map-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 520px;   /* ⬆ increased height */
+  background: #fff;
+  border-radius: 16px;
+  padding: 10px;       /* ⬅ reduced from 20px */
+}
+
+
+.world-map-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: scale(1.08);
+}
+
+/* ===== Pins ===== */
+
+.map-pin {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  text-align: center;
+  z-index: 5;
+}
+
+/* ===== Pin Shape ===== */
+.pin {
+  width: 18px;
+  height: 18px;
+  background: #e53935;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  position: relative;
+  animation: pinPulse 1.8s infinite;
+}
+
+/* Inner white circle */
+.pin::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+
+/* ===== Pin Label ===== */
+.pin-label {
+  margin-top: 8px;
+  display: inline-block;
+  background: #fff;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  white-space: nowrap;
+}
+
+/* ===== Pin Positions (tuned for world map image) ===== */
+
+/* Navi Mumbai */
+/* Navi Mumbai */
+.pin-navi-mumbai {
+      top: 36%;
+    left: 28%;
+}
+
+/* Uttar Shiv (close to Mumbai – slight offset) */
+.pin-uttar-shiv {
+    top: 36%;
+    left: 35%;
+
+}
+
+/* Chennai */
+.pin-chennai {
+     top: 25%;
+    left: 59%;
+}
+
+/* ===== Tooltip ===== */
+.map-pin::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffffff;
+  color: #333;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 6px;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+
+/* Tooltip arrow */
+.map-pin::before {
+  content: "";
+  position: absolute;
+  bottom: 108%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #fff transparent transparent transparent;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+/* Show tooltip on hover */
+.map-pin:hover::after,
+.map-pin:hover::before {
+  opacity: 1;
+}
+
+/* ===== Pulse Animation ===== */
+
+@keyframes pinPulse {
+  0% {
+    transform: rotate(-45deg) scale(1);
+    box-shadow: 0 0 0 0 rgba(229,57,53,0.4);
+  }
+  70% {
+    transform: rotate(-45deg) scale(1.1);
+    box-shadow: 0 0 0 12px rgba(229,57,53,0);
+  }
+  100% {
+    transform: rotate(-45deg) scale(1);
+    box-shadow: 0 0 0 0 rgba(229,57,53,0);
+  }
+}
+
+.error-text {
+  color: #e53935;
+  font-size: 13px;
+  margin-top: 4px;
+  display: none;
+}
+
+.form-control.error,
+.form-select.error {
+  border-color: #e53935;
+}
+
+/* ===== Scroll Progress Bar ===== */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: transparent;
+  z-index: 11000; /* above navbar */
+}
+
+#scroll-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    #3f6ad8
+  );
+  transition: width 0.15s ease-out;
+}
+
+
+
+
+
+
 
 @media (max-width: 768px) {
     .contact-grid {
@@ -1358,19 +1619,64 @@ ul {
     height: 48px;
     max-width: 140px;
   }
-   
-}
-/* ===== Desktop hover dropdown ===== */
-@media (min-width: 992px) {
-  .nav-item.dropdown:hover > .dropdown-menu {
-    display: block;
-    margin-top: 0;
+     .world-map-wrapper {
+    min-height: 320px;
+  }
+
+  .pin-label {
+    font-size: 12px;
+    padding: 3px 8px;
+  }
+
+  .pin {
+    width: 16px;
+    height: 16px;
+  }
+  .about-img-wrapper {
+    order: -1;
+  }
+
+  .about-text {
+    text-align: center;
+  }
+
+  .section-header h2 {
+    text-align: center;
+  }
+  .footer {
+    text-align: center;
+  }
+
+  .footer-grid {
+    justify-items: center;
+  }
+
+  .footer-col ul li {
+    justify-content: center;
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+
+  .linkedin-link {
+    justify-content: center;
   }
 }
-@media (max-width: 991px) {
+
+
+@media (max-width: 992px) {
+  .about-img-wrapper {
+    height: 420px;
+  }
+
+  .navbar-nav {
+    align-items: flex-start !important;
+  }
+
   .navbar-nav .dropdown-menu {
-    position: static;
-    float: none;
+    position: static !important;
+    transform: none !important;
     box-shadow: none;
     border: none;
     padding-left: 15px;
@@ -1381,12 +1687,6 @@ ul {
   }
 }
 
-@media (max-width: 992px) {
-  .about-img-wrapper {
-    height: 420px;
-  }
-  
-}
 
 @media (max-width: 576px) {
   .about-img-wrapper {
@@ -1396,5 +1696,36 @@ ul {
     height: 42px;   /* 👈 adjust as needed */
     max-width: 120px;
   }
+  .floating-linkedin {
+    right: 20px;
+    bottom: 90px;
+  }
+  .back-to-top {
+    right: 20px;     /* same as LinkedIn */
+    bottom: 30px;    /* base position */
+    width: 46px;
+    height: 46px;
+    font-size: 22px;
+  }
+ .hero-content h1 {
+    font-size: 32px;
+    line-height: 1.3;
+  }
+
+  .hero-content p {
+    font-size: 16px;
+    margin: 12px 0 20px;
+  }
+
+  .hero-buttons {
+    width: 100%;
+  }
+
+  .hero-buttons .btn {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 15px;
+  }
+  
 }
 
